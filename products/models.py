@@ -19,3 +19,5 @@ class Product(models.Model):
         "carts.Cart",
         related_name="products"
     )
+     
+    # teste
