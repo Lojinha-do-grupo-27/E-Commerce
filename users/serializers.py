@@ -3,7 +3,7 @@ from rest_framework.validators import UniqueValidator
 from .models import User
 
 
-class UsersSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     username = serializers.CharField(
         validators=[UniqueValidator(queryset=User.objects.all())]
