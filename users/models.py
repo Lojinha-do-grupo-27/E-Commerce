@@ -17,6 +17,3 @@ class User(AbstractUser):
         related_name="user",
         on_delete=models.CASCADE
     )
-
-
-
