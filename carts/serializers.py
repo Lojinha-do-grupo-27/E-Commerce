@@ -10,7 +10,7 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
     def create(self, validated_data: dict) -> Cart:
-        product_avaibility = Product.objects.get("is_avaible")
+        product_avaibility = Product.objects.get("is_available")
         if not product_avaibility:
             raise ValueError("This item is no longer in stock")
 
