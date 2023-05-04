@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Cart
+from products.models import Product
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -9,6 +10,10 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
     def create(self, validated_data: dict) -> Cart:
+        product_avaibility = Product.objects.get("is_avaible")
+        if not product_avaibility:
+            raise ValueError("This item is no longer in stock")
+
         return Cart.objects.create(**validated_data)
 
     def update(self, instance: Cart, validated_data: dict) -> Cart:
