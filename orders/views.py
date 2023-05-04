@@ -8,5 +8,3 @@ from .serializers import OrderSerializer
 class OrderView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     serializer_class = OrderSerializer
-
-    
