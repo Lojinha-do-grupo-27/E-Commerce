@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 
+
 class Product(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=50, unique=True)
@@ -12,10 +13,6 @@ class Product(models.Model):
     user = models.ForeignKey(
         "users.User",
         related_name="products",
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE,
     )
-    carts = models.ManyToManyField(
-        "carts.Cart",
-        related_name="products"
-    )
+    carts = models.ManyToManyField("carts.Cart", related_name="products")
