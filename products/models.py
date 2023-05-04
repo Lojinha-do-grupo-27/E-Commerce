@@ -30,6 +30,4 @@ class ProductCart(models.Model):
         on_delete= models.CASCADE
     )
     quantity = models.PositiveIntegerField()
-
-
-
+    values = models.PositiveIntegerField(default=0)
