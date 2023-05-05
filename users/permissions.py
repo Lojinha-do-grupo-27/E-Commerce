@@ -8,10 +8,7 @@ class IsAdmin(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return (
-          request.user.is_authenticated
-          and request.user.is_superuser
-        )
+        return request.user.is_authenticated and request.user.is_superuser
 
 
 class IsSeller(permissions.BasePermission):
@@ -19,9 +16,30 @@ class IsSeller(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return (
-          (request.user.is_authenticated and request.user.is_superuser) or (request.user.is_authenticated and request.user.is_seller)
+        return (request.user.is_authenticated and request.user.is_superuser) or (
+            request.user.is_authenticated and request.user.is_seller
         )
+
+
+class IsAdminOrSeller(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user.is_authenticated and (
+            request.user.is_superuser or request.user.is_seller
+        )
+
+
+""" 
+class IsSellerOrAdmin(permissions.BasePermission):
+    def has_permission(self, request: Request, view):
+        if request.method == "POST":
+            return request.user.is_authenticated and (
+                request.user.is_superuser or request.user.is_seller
+            )
+        else:
+            return True
+ """
 
 
 class IsAccountOwner(permissions.BasePermission):
@@ -31,4 +49,6 @@ class IsAccountOwner(permissions.BasePermission):
 
 class IsAccountOwnerOrAdm(permissions.BasePermission):
     def has_object_permission(self, request: Request, view: View, obj: User) -> bool:
-        return (request.user.is_authenticated and obj == request.user) or (request.user.is_authenticated and request.user.is_superuser)
+        return (request.user.is_authenticated and obj == request.user) or (
+            request.user.is_authenticated and request.user.is_superuser
+        )

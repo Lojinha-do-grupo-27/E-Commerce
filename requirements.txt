@@ -7,6 +7,7 @@ colorama==0.4.6
 decorator==5.1.1
 dj-database-url==2.0.0
 Django==4.2
+django-filter==23.2
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 executing==1.2.0
@@ -18,10 +19,12 @@ mypy-extensions==1.0.0
 packaging==23.1
 parso==0.8.3
 pathspec==0.11.1
+pexpect==4.8.0
 pickleshare==0.7.5
 platformdirs==3.5.0
 prompt-toolkit==3.0.38
 psycopg2-binary==2.9.6
+ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.15.1
 PyJWT==2.6.0
