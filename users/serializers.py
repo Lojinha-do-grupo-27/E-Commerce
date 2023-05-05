@@ -19,10 +19,14 @@ class UserSerializer(serializers.ModelSerializer):
         address_data = validated_data.pop("address")
         address = Address.objects.create(**address_data)
         if validated_data["is_superuser"]:
-            user = User.objects.create_superuser(address=address, **validated_data)
-        else:
-            user = User.objects.create_user(address=address, **validated_data)
-        return user
+            return User.objects.create_superuser(
+                address=address,
+                **validated_data,
+            )
+        return User.objects.create_user(
+            address=address,
+            **validated_data,
+        )
 
     def update(self, instance: User, validated_data: dict) -> User:
         password = validated_data.pop("password", None)

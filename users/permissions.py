@@ -30,16 +30,13 @@ class IsAdminOrSeller(permissions.BasePermission):
         )
 
 
-""" 
-class IsSellerOrAdmin(permissions.BasePermission):
-    def has_permission(self, request: Request, view):
-        if request.method == "POST":
+class IsAdminToListAndReadOnly(permissions.BasePermission):
+    def has_permission(self, request: Request, view: View):
+        if request.method in permissions.SAFE_METHODS:
             return request.user.is_authenticated and (
                 request.user.is_superuser or request.user.is_seller
             )
-        else:
-            return True
- """
+        return True
 
 
 class IsAccountOwner(permissions.BasePermission):
