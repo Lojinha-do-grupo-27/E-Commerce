@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
 from .models import Product, ProductCart
-from users.serializers import UserSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -32,6 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductCartSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ProductCart
         fields = ["id", "cart_id", "product_id", "values", "quantity"]

@@ -3,67 +3,56 @@ from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
 
 from .models import Cart
-from products.models import Product
+from products.models import Product, ProductCart
 from exceptions import NotInStock
 from users.models import User
-from products.serializers import ProductCartSerializer
 
 class CartSerializer(serializers.ModelSerializer):
 
-    quantity = serializers.SerializerMethodField()
+    cart_item = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
-        fields = ["id", "quantity"]
-        read_only_fields = ["id", "quantity"]
+        fields = ["id", "cart_item"]
+        read_only_fields = ["cart_item"]
     
-    def get_quantity(self, obj):
+    def get_cart_item(self, obj):
         return obj
 
     def create(self, validated_data: dict):
         user_id = self.context['request'].user.id
         user_obj = User.objects.get(id=user_id)
-        user_dict = model_to_dict(user_obj)
-
+        
         fk = self.context['view'].kwargs['fk']
 
-        product = get_object_or_404(Product, pk=fk)
+        product_obj = get_object_or_404(Product, pk=fk)
 
-        product_dict = model_to_dict(product)
+        product_dict = model_to_dict(product_obj)
 
         quantity = self.context['request'].data.get('quantity')
 
-        if product_dict['stock'] <= quantity:
+        if product_dict['stock'] < quantity:
             raise NotInStock()
 
         total_value = product_dict['price'] * quantity
-        
-        if not user_dict['cart']:
-            cart = Cart.objects.create(user=user_obj)
-        else:
-            cart = user_dict['cart']
-        
-        print('cart')
 
-        # dict = {
-        #     "cart": cart,
-        #     "product": product,
-        #     "quantity": quantity,
-        #     "values": total_value
-        # }
+        cart = user_obj.cart
+        if not cart:
+            cart = Cart.objects.create()
+            user_obj.cart = cart
+            user_obj.save()
 
-        # cart = ProductCartSerializer.validated_data(dict)
-        # ProductCartSerializer.is_valid(cart, raise_exception=True)
-        # cart_obj = ProductCartSerializer.save(cart)
-        # cart_dict = model_to_dict(cart_obj)
+        product_cart = ProductCart.objects.create(
+        product=product_obj,
+        cart=cart,
+        quantity=quantity,
+        values=total_value
+        )
 
-        return 'user_obj'
-        # return 'Product has add at cart.'
+        return {
+            "cart_id": product_cart.cart_id,
+            "product_id": product_cart.product_id,
+            "values": product_cart.values,
+            "quantity": product_cart.quantity
+        }
 
-    def update(self, instance: Cart, validated_data: dict) -> Cart:
-        for key, value in validated_data.items():
-            setattr(instance, key, value)
-
-        instance.save()
-
-        return instance
