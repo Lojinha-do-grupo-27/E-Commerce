@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 
 from .models import Cart
 from products.models import Product, ProductCart
-from exceptions import NotInStock, AlreadyCreated
+from exceptions import NotInStock, AlreadyInCart
 from users.models import User
 
 
@@ -50,7 +50,7 @@ class CartSerializer(serializers.ModelSerializer):
         )
 
         if not created:
-            raise AlreadyCreated()
+            raise AlreadyInCart()
 
 
         return {

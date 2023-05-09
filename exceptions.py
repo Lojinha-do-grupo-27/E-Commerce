@@ -10,7 +10,7 @@ class NotInStock(APIException):
             detail = self.default_detail
         self.detail = detail
 
-class AlreadyCreated(APIException):
+class AlreadyInCart(APIException):
     status_code = 400
     default_detail = "This product already added in the cart"
     default_code = "error"
