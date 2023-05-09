@@ -46,12 +46,11 @@ class CartSerializer(serializers.ModelSerializer):
         product_cart, created = ProductCart.objects.get_or_create(
             product=product_obj,
             cart=cart,
-            defaults={"quantity": quantity, "values": total_value}
+            defaults={"quantity": quantity, "values": total_value},
         )
 
         if not created:
             raise AlreadyInCart()
-
 
         return {
             "cart_id": product_cart.cart_id,
