@@ -32,6 +32,7 @@ class CartSerializer(serializers.ModelSerializer):
         quantity = self.context['request'].data.get('quantity')
 
         if product_dict['stock'] < quantity:
+            # alterar a mensagem para dizer qual a quantidade em estoque
             raise NotInStock()
 
         total_value = product_dict['price'] * quantity
@@ -42,6 +43,7 @@ class CartSerializer(serializers.ModelSerializer):
             user_obj.cart = cart
             user_obj.save()
 
+        # verificar se o produto já não está no carrinho
         product_cart = ProductCart.objects.create(
         product=product_obj,
         cart=cart,

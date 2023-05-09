@@ -41,7 +41,7 @@ class CartDetailView(RetrieveUpdateDestroyAPIView):
         user = self.request.user
         cart_id = user.cart_id
         product_id = kwargs["product_id"]
-        product_cart_obj = ProductCart.objects.filter(cart_id=cart_id, product_id=product_id).first()
+        product_cart_obj = ProductCart.objects.filter(cart_id=cart_id, product_id=product_id).first()        
         new_quantity = request.data['quantity']
         product_obj = Product.objects.get(id=product_id)
         if new_quantity > product_obj.stock:
@@ -52,3 +52,11 @@ class CartDetailView(RetrieveUpdateDestroyAPIView):
         serializer.save()
 
         return Response(serializer.data, status=200)
+
+    def delete(self, request, *args, **kwargs):
+        user = self.request.user
+        cart_id = user.cart_id
+        product_id = kwargs["product_id"]
+        product_cart_obj = ProductCart.objects.filter(cart_id=cart_id, product_id=product_id).first()
+        ProductCart.delete(product_cart_obj)
+        return Response(status=204)

@@ -3,5 +3,6 @@ from . import views
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
-    path("orders/", views.OrderView.as_view())
+    path("orders/<uuid:user_id>/", views.OrderView.as_view()),
+    path("orders/<uuid:order_id>/edit/", views.OrderDetailView.as_view()),
 ]
