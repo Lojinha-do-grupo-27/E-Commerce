@@ -18,3 +18,6 @@ class User(AbstractUser):
     address = models.ForeignKey(
         "addresses.Address", related_name="user", on_delete=models.CASCADE
     )
+
+
+
