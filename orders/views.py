@@ -86,6 +86,8 @@ class OrderView(ListCreateAPIView):
             order = Order.objects.create(
                 seller_id=order_dict["seller_id"], user=user, status=StatusChoices.PEDIDO_REALIZADO
             )
+
+            order_dict['order_id'] = order.id
             
             for product_dict in order_dict["products"]:
                 product_obj = Product.objects.get(id=product_dict["product_id"])
