@@ -12,7 +12,7 @@ class User(AbstractUser):
     cart = models.ForeignKey(
         "carts.Cart",
         related_name="user",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
     )
     address = models.ForeignKey(
