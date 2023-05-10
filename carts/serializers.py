@@ -32,7 +32,7 @@ class CartSerializer(serializers.ModelSerializer):
         quantity = self.context["request"].data.get("quantity")
 
         if product_dict["stock"] < quantity:
-            message = f" there isn't enought {product_dict['name']} in stock, the quantity available is {product_dict['stock']}"
+            message = f" there isn't enought {product_dict['name']} in stock, the quantity available is just {product_dict['stock']}"
             raise NotInStock(message)
 
         total_value = product_dict["price"] * quantity

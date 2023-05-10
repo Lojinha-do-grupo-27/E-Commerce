@@ -14,3 +14,8 @@ class AlreadyInCart(APIException):
     status_code = 400
     default_detail = "This product already added in the cart"
     default_code = "error"
+
+class EmptyCart(APIException):
+    status_code = 400
+    default_detail = "The cart of this user is empty."
+    default_code = "error"

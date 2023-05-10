@@ -9,8 +9,8 @@ from users.models import User
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ["id", "status", "seller_id"]
-        read_only_fields = ["id", "seller_id", "products"]
+        fields = ["id", "status", "seller_id", "created_at", "updated_at"]
+        read_only_fields = ["id", "seller_id", "products", "created_at", "updated_at"]
 
     def update(self, instance, validated_data):
         user_email = instance.user.email

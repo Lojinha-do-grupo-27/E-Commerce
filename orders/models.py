@@ -21,3 +21,5 @@ class Order(models.Model):
         "users.User", related_name="orders", on_delete=models.CASCADE
     )
     products = models.ManyToManyField('products.Product', related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
