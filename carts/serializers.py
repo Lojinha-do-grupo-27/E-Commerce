@@ -43,7 +43,7 @@ class CartSerializer(serializers.ModelSerializer):
             user_obj.cart = cart
             user_obj.save()
 
-        # verificar se o produto já não está no carrinho
+        # verificar se o produto já não está no carrinho        
         product_cart = ProductCart.objects.create(
         product=product_obj,
         cart=cart,
